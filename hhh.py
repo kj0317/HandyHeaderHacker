@@ -13,13 +13,13 @@ def ReferrerPolicy(searchheaders):
 		if "Referrer-Policy:".lower() in header.lower():
 			print "\033[1;32m[+]\033[0m Detected Referrer-Policy - '" + header.rstrip() + "' \033[1;32m(OK)\033[0m"
 			return
-	print "\033[1;31m[-]\033[0m Referrer-Policy not present \033[1;31m(Not OK)\033[0m"	
+	print "\033[1;31m[-]\033[0m Referrer-Policy not present \033[1;31m(Not OK)\033[0m"
 def XFrameOptions(searchheaders):
 	for header in searchheaders:
 		if "X-Frame-Options:".lower() in header.lower():
 			print "\033[1;32m[+]\033[0m Detected X-Frame-Options - '" + header.rstrip() + "' \033[1;32m(OK)\033[0m"
 			return
-	print "\033[1;31m[-]\033[0m X-Frame-Options not present \033[1;31m(Not OK)\033[0m"		
+	print "\033[1;31m[-]\033[0m X-Frame-Options not present \033[1;31m(Not OK)\033[0m"
 def ContentSecurityPolicy(searchheaders):
 	detected = False
 	for header in searchheaders:
@@ -47,14 +47,14 @@ def ContentSecurityPolicy(searchheaders):
 	if detected is True:
 		return
 	else:
-		print "\033[1;31m[-]\033[0m Content-Security-Policy not present \033[1;31m(Not OK)\033[0m"	
+		print "\033[1;31m[-]\033[0m Content-Security-Policy not present \033[1;31m(Not OK)\033[0m"
 
-def XXSSProtection(searchheaders):
-	for header in searchheaders:
-		if "X-XSS-Protection:".lower() in header.lower():
-			print "\033[1;32m[+]\033[0m Detected X-XSS-Protection - '" + header.rstrip() + "' \033[1;32m(OK)\033[0m"
-			return
-	print "\033[1;31m[-]\033[0m X-XSS-Protection not present \033[1;31m(Not OK)\033[0m"
+#def XXSSProtection(searchheaders):
+#	for header in searchheaders:
+#		if "X-XSS-Protection:".lower() in header.lower():
+#			print "\033[1;32m[+]\033[0m Detected X-XSS-Protection - '" + header.rstrip() + "' \033[1;32m(OK)\033[0m"
+#			return
+#	print "\033[1;31m[-]\033[0m X-XSS-Protection not present \033[1;31m(Not OK)\033[0m"
 def XContentTypeOptions(searchheaders):
 	for header in searchheaders:
 		if "X-Content-Type-Options:".lower() in header.lower():
@@ -94,11 +94,11 @@ def SecureChecks(searchheaders):
 		print "\033[1;32m[+]\033[0m Detected Strict-Transport-Security - " + HSTSHeader[0].rstrip() + "' \033[1;32m(OK)\033[0m"
 	else:
 		print "\033[1;31m[-]\033[0m Strict-Transport-Security not present \033[1;31m(Not OK)\033[0m"
-	if "Public-Key-Pins:".lower() in headerlist.lower():
-		PKPHeader = filter(lambda y: 'Public-Key-Pins' in y,searchheaders)
-		print "\033[1;32m[+]\033[0m Detected Public-Key-Pins - " + PKPHeader[0].rstrip() + "' \033[1;32m(OK)\033[0m"
-	else:
-		print "\033[1;31m[-]\033[0m Public-Key-Pins not present \033[1;31m(Not OK)\033[0m"
+#	if "Public-Key-Pins:".lower() in headerlist.lower():
+#		PKPHeader = filter(lambda y: 'Public-Key-Pins' in y,searchheaders)
+#		print "\033[1;32m[+]\033[0m Detected Public-Key-Pins - " + PKPHeader[0].rstrip() + "' \033[1;32m(OK)\033[0m"
+#	else:
+#		print "\033[1;31m[-]\033[0m Public-Key-Pins not present \033[1;31m(Not OK)\033[0m"
 
 def AnomalousHeaders(searchheaders):
 	KnownHeaders = ['HTTP/1.1','Date','Server', 'Last-Modified','ETag','Accept-Ranges','Content-Length','Vary','Cache-Control','Content-Type','Pragma','Transfer-Encoding','Connection','Set-Cookie', 'Expires', 'WWW-Authenticate', 'Content-Encoding','Age','Status', 'Content-Range','Content-Language','Public-Key-Pins','Strict-Transport-Security','ETag', 'X-Powered-By', 'X-Content-Type-Options', 'X-XSS-Protection', 'Content-Security-Policy','X-Frame-Options', 'Referrer-Policy' ]
@@ -119,7 +119,7 @@ def RetrieveHeader(Target, **cookiekey):
 		sslcontext = ssl.create_default_context()
 		if args.insecure:
 			print "Ignoring certificate errors..."
-			sslcontext = ssl._create_unverified_context() #Ignore all SSL context 
+			sslcontext = ssl._create_unverified_context() #Ignore all SSL context
 		try:
 			if len(CookieGlobal) > 0:
 				print "Using provided cookie..."
@@ -161,7 +161,7 @@ if __name__ == '__main__':
 	#Optional
 	parser.add_argument('-s','--securechecks', help='Inspect only headers related to HTTPS on target', required=False, action='store_true')
 	parser.add_argument('-xf','--xframeoptions', help='Inspect only the X-Frame-Options header on target', required=False, action='store_true')
-	parser.add_argument('-xx','--xxssprotection', help='Inspect only the X-XSS-Protection header on target', required=False, action='store_true')
+#	parser.add_argument('-xx','--xxssprotection', help='Inspect only the X-XSS-Protection header on target', required=False, action='store_true')
 	parser.add_argument('-xc','--xcontenttypeoptions', help='Inspect only the X-Content-Type-Options header on target', required=False, action='store_true')
 	parser.add_argument('-g','--general', help='Inspect general headers on target', required=False, action='store_true')
 	parser.add_argument('-c','--cookies', help='Inspect cookies on target', required=False, action='store_true')
@@ -171,13 +171,13 @@ if __name__ == '__main__':
 	parser.add_argument('-b','--cookie', help='Pass a cookie to your request to simulate an authenticated user, EX: ./hhh.py -t https://google.com -b "cookie1=test;cookie2=google', required=False, type=CookieList)
 
 	args = parser.parse_args()
-	multiarg = False 
+	multiarg = False
 	print "Starting Handy Header Hacker... "
 	CookieGlobal = "" #Define an empty cookie variable
 	if args.cookie:
 		delim = ';'
 		CookieGlobal = delim.join(args.cookie)
-	
+
 
 	if args.securechecks:
 		multiarg = True
@@ -185,7 +185,7 @@ if __name__ == '__main__':
 			print "Attempting checks against HTTPS headers on " + args.target
 			Headers = RetrieveHeader(args.target, cookie=CookieGlobal)
 			SecureChecks(Headers)
-		else:
+                else:
 			print "Target is not utilizing HTTPS, exiting..."
 			sys.exit(0)
 	if args.refpolicy:
@@ -198,11 +198,11 @@ if __name__ == '__main__':
 		print "Attempting check against X-Frame-Options header on " + args.target
 		Headers = RetrieveHeader(args.target, cookie=CookieGlobal)
 		XFrameOptions(Headers)
-	if args.xxssprotection:
-		multiarg = True
-		print "Attempting check against X-XSS-Protection header on " + args.target
-		Headers = RetrieveHeader(args.target, cookie=CookieGlobal)
-		XXSSProtection(Headers)
+#	if args.xxssprotection:
+#		multiarg = True
+#		print "Attempting check against X-XSS-Protection header on " + args.target
+#		Headers = RetrieveHeader(args.target, cookie=CookieGlobal)
+#		XXSSProtection(Headers)
 	if args.xcontenttypeoptions:
 		multiarg = True
 		print "Attempting check against X-Content-Type-Options header on " + args.target
@@ -229,7 +229,7 @@ if __name__ == '__main__':
 		Headers = RetrieveHeader(args.target, cookie=CookieGlobal)
 		XFrameOptions(Headers)
 		ContentSecurityPolicy(Headers)
-		XXSSProtection(Headers)
+		#XXSSProtection(Headers)
 		XContentTypeOptions(Headers)
 		GeneralInspect(Headers)
 		CookieInspection(Headers)
